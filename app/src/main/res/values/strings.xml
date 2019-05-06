@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ChessAndroid67</string>
+    <string name="title_activity_logsof_games">Logs of Games</string>
+    <string name="activity_play">PlayTime!</string>
+</resources>
