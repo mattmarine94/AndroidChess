@@ -2,4 +2,6 @@
     <string name="app_name">ChessAndroid67</string>
     <string name="title_activity_logsof_games">Logs of Games</string>
     <string name="activity_play">PlayTime!</string>
+    <string name="back"><![CDATA[<<]]></string>
+    <string name="forward"><![CDATA[>>]]></string>
 </resources>
