@@ -1,10 +1,17 @@
 package com.example.chessandroid67;
 
+import android.content.DialogInterface;
+import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.ImageButton;
+import android.widget.Button;
+
+import static android.graphics.Color.*;
+
 
 public class Play extends AppCompatActivity implements View.OnClickListener {
 
@@ -14,6 +21,8 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
     boolean gameStart = true;
     Board board = new Board();
     ImageButton[][] tiles = new ImageButton[8][8];
+    boolean drawReq = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,49 +42,116 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                 tiles[r][c].setOnClickListener(this);
             }
         }
+        Button resBtn = findViewById(R.id.resBtn);
+        Button drawBtn = findViewById(R.id.drawBtn);
+        Button undoBtn = findViewById(R.id.undoBtn);
+        undoBtn.setTag("undo");
+        Button aiBtn = findViewById(R.id.aiBtn);
+        aiBtn.setTag("ai");
+
+        if(!drawReq) {
+            TextView badMove = findViewById(R.id.badMove);
+            String dr = "DRAW";
+            drawReq = false;
+            badMove.setText(null);
+            drawBtn.setText(dr);
+            drawBtn.setBackgroundResource(android.R.drawable.btn_default);
+        }
+        resBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(Play.this);
+                builder.setCancelable(true);
+                builder.setTitle("Resignation");
+                builder.setMessage("Would you like to resign?");
+
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.setPositiveButton("Resign", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        TextView playerMove = findViewById(R.id.playerMove);
+                        resignClicked(playerMove);
+                    }
+                });
+                builder.show();
+            }
+        });
+
+        drawBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(Play.this);
+                builder.setCancelable(true);
+                if(drawReq == false){
+                    builder.setTitle("Draw proposal");
+                    builder.setMessage("Would you like to request a Draw?");
+                }
+                else{
+                    builder.setTitle("Draw request from other player");
+                    builder.setMessage("would you like to accept the draw request?");
+                }
+                builder.setNegativeButton("No way", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                              drawClicked();
+                    }
+                });
+                builder.show();
+            }
+        });
     }
     @Override
     public void onClick(View v){
+        TextView badMove = findViewById(R. id.badMove);
         TextView playerMove = findViewById(R.id.playerMove);
-        TextView badMove = findViewById(R.id.badMove);
+        drawReq = false;
         String moves;
-        if(badMove.getText().toString().equals("Illegal move, try again")){
-            badMove.setText(null);
-        }
-        if(clickCount < 1){
-            clickCount++;
-            i = Integer.parseInt(String.valueOf(v.getTag().toString().charAt(1)));
-            j = Integer.parseInt(String.valueOf(v.getTag().toString().charAt(2)));
-            String disp = getDisplayMessage((String) playerMove.getText(), v.getTag().toString().substring(1), clickCount);
-            playerMove.setText(disp);
-        }
-        else{
-            p = Integer.parseInt(String.valueOf(v.getTag().toString().charAt(1)));
-            q = Integer.parseInt(String.valueOf(v.getTag().toString().charAt(2)));
-            if(player%2 == 0){
-                moves = com.example.chessandroid67.Chess.game(board, i, j, p, q, "white");
-            }
-            else{
-               moves = com.example.chessandroid67.Chess.game(board, i, j, p, q, "black");
-            }
-            if(moves == null){//illegal move
-                if(player%2 == 0){
-                    playerMove.setText(R.string.wMove);
-                }
-                else{
-                    playerMove.setText(R.string.bMove);
-                }
-                badMove.setText(R.string.illegal);
-                clickCount = 0;
-            }
-            else{//successful move
-                makeMove(v, i, j, p, q, moves);
-                clickCount = 0;
 
+            //tile was clicked
+            if (badMove.getText().toString().equals("Illegal move, try again")) {
+                badMove.setText(null);
+            }
+            if (clickCount < 1) {
+                clickCount++;
+                i = Integer.parseInt(String.valueOf(v.getTag().toString().charAt(1)));
+                j = Integer.parseInt(String.valueOf(v.getTag().toString().charAt(2)));
+                String disp = getDisplayMessage((String) playerMove.getText(), v.getTag().toString().substring(1), clickCount);
+                playerMove.setText(disp);
+            } else {
+                p = Integer.parseInt(String.valueOf(v.getTag().toString().charAt(1)));
+                q = Integer.parseInt(String.valueOf(v.getTag().toString().charAt(2)));
+                if (player % 2 == 0) {
+                    moves = com.example.chessandroid67.Chess.game(board, i, j, p, q, "white");
+                } else {
+                    moves = com.example.chessandroid67.Chess.game(board, i, j, p, q, "black");
+                }
+                if (moves == null) {//illegal move
+                    if (player % 2 == 0) {
+                        playerMove.setText(R.string.wMove);
+                    } else {
+                        playerMove.setText(R.string.bMove);
+                    }
+                    badMove.setText(R.string.illegal);
+                    clickCount = 0;
+                } else {//successful move
+                    makeMove(v, i, j, p, q, moves);
+                    clickCount = 0;
+
+                }
             }
         }
-
-    }
 
     public boolean makeMove(View v, int i,int j,int p,int q, String moves){
 
@@ -135,6 +211,41 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
 
         ret = ret + b + " -> ";
         return ret;
+    }
+
+    public void resignClicked(TextView playerMove){
+
+        if(player%2 ==0 ){
+            playerMove.setText(R.string.bWin);
+        }
+        else{
+            playerMove.setText(R.string.wWin);
+        }
+
+    }
+    public void drawClicked(){
+        TextView badMove = findViewById(R. id.badMove);
+        Button drawBtn = findViewById(R.id.drawBtn);
+        TextView playerMove = findViewById(R.id.playerMove);
+
+        if(drawReq == false){
+            drawReq = true;
+            String note = "Opponent requested a draw. Click draw button to accept.";
+            drawBtn.setText(R.string.draw2);
+            badMove.setText(note);
+            drawBtn.setBackgroundResource(android.R.color.holo_green_light);
+        }
+        else{
+            playerMove.setText(null);
+            playerMove.setText(R.string.draw);
+        }
+
+    }
+    public void undoClicked(){
+
+    }
+    public void aiClicked(){
+
     }
 
 }

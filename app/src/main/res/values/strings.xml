@@ -7,4 +7,8 @@
     <string name="bMove">Black\'s move</string>
     <string name="wMove">White\'s Move</string>
     <string name="illegal">Illegal move, try again</string>
+    <string name="bWin">Black wins!</string>
+    <string name="wWin">White wins!</string>
+    <string name="draw">It\'s a Draw!!</string>
+    <string name="draw2">DRAW?!</string>
 </resources>
