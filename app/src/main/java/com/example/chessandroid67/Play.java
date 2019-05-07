@@ -10,6 +10,8 @@ import android.widget.TextView;
 import android.widget.ImageButton;
 import android.widget.Button;
 
+import org.w3c.dom.Text;
+
 import static android.graphics.Color.*;
 
 
@@ -22,6 +24,7 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
     Board board = new Board();
     ImageButton[][] tiles = new ImageButton[8][8];
     boolean drawReq = false;
+    int drawPlay = -1;
 
 
     @Override
@@ -49,14 +52,10 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
         Button aiBtn = findViewById(R.id.aiBtn);
         aiBtn.setTag("ai");
 
-        if(!drawReq) {
-            TextView badMove = findViewById(R.id.badMove);
-            String dr = "DRAW";
-            drawReq = false;
-            badMove.setText(null);
-            drawBtn.setText(dr);
-            drawBtn.setBackgroundResource(android.R.drawable.btn_default);
+        if(drawPlay > -1 && drawPlay != player){
+            drawBtn.setClickable(true);
         }
+
         resBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,10 +95,18 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                     builder.setTitle("Draw request from other player");
                     builder.setMessage("would you like to accept the draw request?");
                 }
-                builder.setNegativeButton("No way", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("Reject", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        TextView badMove = findViewById(R.id.badMove);
                         dialog.cancel();
+                        drawPlay = -1;
+                        drawReq = false;
+                        Button drawBtn = findViewById(R.id.drawBtn);
+                        String dr = "DRAW";
+                        badMove.setText(null);
+                        drawBtn.setText(dr);
+                        drawBtn.setBackgroundResource(android.R.drawable.btn_default);
                     }
                 });
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -116,7 +123,6 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v){
         TextView badMove = findViewById(R. id.badMove);
         TextView playerMove = findViewById(R.id.playerMove);
-        drawReq = false;
         String moves;
 
             //tile was clicked
@@ -129,7 +135,8 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                 j = Integer.parseInt(String.valueOf(v.getTag().toString().charAt(2)));
                 String disp = getDisplayMessage((String) playerMove.getText(), v.getTag().toString().substring(1), clickCount);
                 playerMove.setText(disp);
-            } else {
+            }
+            else {
                 p = Integer.parseInt(String.valueOf(v.getTag().toString().charAt(1)));
                 q = Integer.parseInt(String.valueOf(v.getTag().toString().charAt(2)));
                 if (player % 2 == 0) {
@@ -146,9 +153,26 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                     badMove.setText(R.string.illegal);
                     clickCount = 0;
                 } else {//successful move
+                    if(drawReq && drawPlay == player){
+                        Button drawBtn = findViewById(R.id.drawBtn);
+                        drawBtn.setBackgroundResource(android.R.color.holo_green_light);
+                        drawBtn.setText(R.string.draw2);
+                        TextView msg = findViewById(R.id.badMove);
+                        String s = "Other player REQUESTED a DRAW";
+                        msg.setText(s);
+                        drawBtn.setClickable(true);
+                    }
+                    else{
+                        drawPlay = -1;
+                        Button drawBtn = findViewById(R.id.drawBtn);
+                        String dr = "DRAW";
+                        badMove.setText(null);
+                        drawBtn.setText(dr);
+                        drawBtn.setBackgroundResource(android.R.drawable.btn_default);
+                        drawReq = false;
+                    }
                     makeMove(v, i, j, p, q, moves);
                     clickCount = 0;
-
                 }
             }
         }
@@ -228,16 +252,17 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
         Button drawBtn = findViewById(R.id.drawBtn);
         TextView playerMove = findViewById(R.id.playerMove);
 
-        if(drawReq == false){
+        if(!drawReq && drawPlay == -1){
             drawReq = true;
-            String note = "Opponent requested a draw";
-            drawBtn.setText(R.string.draw2);
-            badMove.setText(note);
-            drawBtn.setBackgroundResource(android.R.color.holo_green_light);
+            drawPlay = player;
+            drawBtn.setText(R.string.pend);
+            badMove.setText(R.string.sentreq);
+            drawBtn.setClickable(false);
         }
-        else{
+        else if(drawReq && drawPlay > -1){
             playerMove.setText(null);
             playerMove.setText(R.string.draw);
+
         }
 
     }

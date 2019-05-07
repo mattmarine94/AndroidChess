@@ -11,4 +11,7 @@
     <string name="wWin">White wins!</string>
     <string name="draw">It\'s a Draw!!</string>
     <string name="draw2">DRAW?!</string>
+    <string name="sent">Sent</string>
+    <string name="sentreq">Sent draw request. Make a move.</string>
+    <string name="pend">pending</string>
 </resources>
