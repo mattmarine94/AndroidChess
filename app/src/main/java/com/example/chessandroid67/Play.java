@@ -1,7 +1,6 @@
 package com.example.chessandroid67;
 
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,10 +8,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.ImageButton;
 import android.widget.Button;
-
-import org.w3c.dom.Text;
-
-import static android.graphics.Color.*;
 
 
 public class Play extends AppCompatActivity implements View.OnClickListener {
@@ -25,13 +20,15 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
     ImageButton[][] tiles = new ImageButton[8][8];
     boolean drawReq = false;
     int drawPlay = -1;
+    int[] prevMove = new int[4];
+    Piece tempP = null;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
-        if(gameStart == true) {
+        if(gameStart) {
             board.setBoard();
             gameStart = false;
         }
@@ -52,6 +49,10 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
         Button aiBtn = findViewById(R.id.aiBtn);
         aiBtn.setTag("ai");
 
+        undoBtn.setOnClickListener(this);
+        aiBtn.setOnClickListener(this);
+
+        //draw and resign from here on
         if(drawPlay > -1 && drawPlay != player){
             drawBtn.setClickable(true);
         }
@@ -119,13 +120,24 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
             }
         });
     }
+
+
+
     @Override
     public void onClick(View v){
         TextView badMove = findViewById(R. id.badMove);
         TextView playerMove = findViewById(R.id.playerMove);
         String moves;
 
-            //tile was clicked
+            if(v.getTag().toString().equals("undo")){
+                undoClicked();
+            }
+            else if(v.getTag().toString().equals("ai")){
+
+            }
+
+            else{ //tile was clicked
+
             if (badMove.getText().toString().equals("Illegal move, try again")) {
                 badMove.setText(null);
             }
@@ -139,6 +151,7 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
             else {
                 p = Integer.parseInt(String.valueOf(v.getTag().toString().charAt(1)));
                 q = Integer.parseInt(String.valueOf(v.getTag().toString().charAt(2)));
+                tempP = com.example.chessandroid67.Chess.getTempPiece(board, p, q);
                 if (player % 2 == 0) {
                     moves = com.example.chessandroid67.Chess.game(board, i, j, p, q, "white");
                 } else {
@@ -157,9 +170,8 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                         Button drawBtn = findViewById(R.id.drawBtn);
                         drawBtn.setBackgroundResource(android.R.color.holo_green_light);
                         drawBtn.setText(R.string.draw2);
-                        TextView msg = findViewById(R.id.badMove);
                         String s = "Other player REQUESTED a DRAW";
-                        msg.setText(s);
+                        badMove.setText(s);
                         drawBtn.setClickable(true);
                     }
                     else{
@@ -174,10 +186,16 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                     makeMove(v, i, j, p, q, moves);
                     clickCount = 0;
                 }
-            }
+            }}
         }
 
     public boolean makeMove(View v, int i,int j,int p,int q, String moves){
+        ImageButton lastCapture = findViewById(R.id.lastCapture);
+        prevMove[0] = i;
+        prevMove[1] = j;
+        prevMove[2] = p;
+        prevMove[3] = q;
+        lastCapture.setForeground(tiles[p][q].getForeground());
 
         ImageButton tile1 = tiles[i][j];
         ImageButton tile2 = tiles[p][q];
@@ -267,6 +285,21 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
 
     }
     public void undoClicked(){
+        String undoMoves;
+        ImageButton lastCapture = findViewById(R.id.lastCapture);
+
+
+        com.example.chessandroid67.Chess.resetMoves(board, prevMove[0], prevMove[1], prevMove[2], prevMove[3], tempP);
+        tiles[i][j].setForeground(tiles[p][q].getForeground());
+        tiles[p][q].setForeground(lastCapture.getForeground());
+
+
+        if(player%2 == 0){
+            player--;
+        }
+        else{
+            player++;
+        }
 
     }
     public void aiClicked(){

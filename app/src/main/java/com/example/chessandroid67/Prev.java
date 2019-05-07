@@ -13,7 +13,7 @@ public class Prev {
 		this.lastPiece = lastPiece;
 		this.row = row;
 		this.newrow = newrow;
-		
+
 	}
 	
 	public Piece getLastMove() {

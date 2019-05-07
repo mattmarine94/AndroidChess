@@ -9,6 +9,14 @@ public class Chess {
         boolean isCheck = false;
         boolean isCheckmate = false;
 
+        if(color.equals("undo")){
+
+
+
+            return "undo";
+        }
+
+
         if (color.equals("white")) {
             //player white
             isCheck = whiteInCheck(board, lastMove);
@@ -200,4 +208,18 @@ public class Chess {
             }
             return move;
         }
+    public static Piece getTempPiece(Board chessboard, int i, int j){
+            Tile[][] board = chessboard.board;
+            Piece temp = null;
+            temp = board[i][j].getPiece();
+            return temp;
+    }
+    public static void resetMoves(Board chessboard, int i, int j, int p, int q, Piece tempP){
+        Tile[][] board = chessboard.board;
+        board[i][j].setPiece(board[p][q].getPiece());
+        board[p][q].removePiece();
+        if(tempP != null){
+            board[p][q].setPiece(tempP);
+        }
+    }
     }
