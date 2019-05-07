@@ -6,4 +6,5 @@
     <string name="forward"><![CDATA[>>]]></string>
     <string name="bMove">Black\'s move</string>
     <string name="wMove">White\'s Move</string>
+    <string name="illegal">Illegal move, try again</string>
 </resources>

@@ -6,21 +6,7 @@ public class Tile {
 	private boolean holdsPiece = false;
 	private Piece piece;
 	private boolean firstMove = false;
-	
-	
-	public void displayTile() {
-		if(holdsPiece == false) {
-			if(color% 2== 0) {
-				System.out.print("   ");
-			}
-			else {
-				System.out.print("## ");
-			}
-		}
-		else {
-			System.out.print(piece + " ");
-		}
-	}
+
 	public void setPiece(Piece piece) {
 		this.piece = piece;
 		holdsPiece = true;
