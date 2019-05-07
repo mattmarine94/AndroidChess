@@ -230,7 +230,7 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
 
         if(drawReq == false){
             drawReq = true;
-            String note = "Opponent requested a draw. Click draw button to accept.";
+            String note = "Opponent requested a draw";
             drawBtn.setText(R.string.draw2);
             badMove.setText(note);
             drawBtn.setBackgroundResource(android.R.color.holo_green_light);
