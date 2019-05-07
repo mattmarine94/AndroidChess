@@ -27,10 +27,7 @@ public class Pawn extends Piece {
 	public void attack(String s){
 		//attacks diagonally
 	}
-	/**
-	 * promotion method for when pawn reaches its end of the board
-	 * @param String s designated the moves inputed by the player as well the type of piece the pawn becomes
-	 */
+
 	public void promte(String s) {
 		//find out what piece was written after the move and promote to said piece
 		//also possible to initialize new piece and delete old pawn

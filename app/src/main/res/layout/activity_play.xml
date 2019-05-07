@@ -374,7 +374,6 @@
             android:layout_height="50dp"
             android:background="@drawable/light"
             android:clickable="true"
-            android:foreground="@drawable/empty"
             app:layout_column="5"
             app:layout_row="3"
             app:srcCompat="@drawable/light" />
