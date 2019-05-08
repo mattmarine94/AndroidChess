@@ -449,9 +449,10 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
     public void setGameEnd(){
 
         Button resBtn = findViewById(R.id.resBtn);
-        Button drawBtn = findViewById(R.id.resBtn);
-        Button aiBtn = findViewById(R.id.resBtn);
-        Button undoBtn = findViewById(R.id.resBtn);
+        Button drawBtn = findViewById(R.id.drawBtn);
+        Button aiBtn = findViewById(R.id.aiBtn);
+        Button undoBtn = findViewById(R.id.undoBtn);
+        Button end = findViewById(R.id.homeBtn);
 
         resBtn.setVisibility(View.GONE);
         resBtn.setClickable(false);
@@ -467,6 +468,8 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                 tiles[r][c].setClickable(false);
             }
         }
+        end.setVisibility(View.VISIBLE);
+        end.setClickable(true);
 
     }
 
