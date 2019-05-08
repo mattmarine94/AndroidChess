@@ -4,6 +4,14 @@ public class Board {
 	private int row = 8;
 	private int colomn = 8;
 	public Tile[][] board = new Tile[row][colomn];
+	private Prev lastMove = new Prev();
+
+	public Prev getPrevMove(){
+		return lastMove;
+	}
+	public void setPrevMove(Prev lastMove){
+		this.lastMove = lastMove;
+	}
 
 	public void setBoard() {
 		for(int i = 0; i < row; i++) {

@@ -127,6 +127,7 @@ public class Chess {
                     return ret;
                 }
                 lastMove.setLastMove(board[p][q].getPiece(), i, p);
+                chessboard.setPrevMove(lastMove);
                 //successful move
                 ret = "move";
                 return ret;
@@ -223,9 +224,35 @@ public class Chess {
 
         }
     }
-    public static void autoMove(Board chessboard, String color){
+    public static String autoMove(Board chessboard, String color){
+        Tile[][] board = chessboard.board;
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                if(board[i][j].hasPiece()){
+                    if(board[i][j].getPiece().getPlayer() == 0 && color.equals("white")){
+                        for(int p = 0; p < 8; p++){
+                            for(int q = 0; q < 8; q++){
+                                if(game(chessboard, i, j, p, q, color).equals("move")){
+                                    String ret = i+""+j+""+p+""+q;
+                                    return ret;
+                                }
+                            }
+                        }
+                    }
+                    else if(board[i][j].getPiece().getPlayer() == 1 && color.equals("black")){
+                        for(int p = 0; p < 8; p++){
+                            for(int q = 0; q < 8; q++){
+                                if(game(chessboard, i, j, p, q, color).equals("move")){
+                                    String ret = i+""+j+""+p+""+q;
+                                    return ret;
+                                }
+                            }
+                        }
+                    }
+                }
 
-
-
+            }
+        }
+        return null;
     }
-    }
+}
