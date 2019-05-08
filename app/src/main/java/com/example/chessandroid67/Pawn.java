@@ -81,7 +81,7 @@ public class Pawn extends Piece {
 				}
 			}
 		}
-		if(r-1 >= 0 && c-1 >= 0) {
+		if(r-1 >= 0 && c-1 >= 0 && c+1 < 8) {
 			if(!board[r-1][c-1].hasPiece() && board[r][c-1].hasPiece() && lastMove.getRow()!= -1) {
 				if(board[r][c-1].getPiece().toString().charAt(1) == 'P' && lastMove.getLastMove().equals(board[r][c+1].getPiece()) ) {
 					if(board[r][c-1].getPiece().toString().charAt(0) == 'w') {
@@ -182,7 +182,7 @@ public class Pawn extends Piece {
 				}
 			}
 		}
-		if(r+1 < 8 && c-1 >= 0) {
+		if(r+1 < 8 && c-1 >= 0 && c+1 < 8) {
 			if(!board[r+1][c-1].hasPiece() && board[r][c-1].hasPiece() && lastMove.getRow()!= -1) {
 				if(board[r][c-1].getPiece().toString().charAt(1) == 'P' && lastMove.getLastMove().equals(board[r][c+1].getPiece()) ) {
 					if(board[r][c-1].getPiece().toString().charAt(0) == 'b') {

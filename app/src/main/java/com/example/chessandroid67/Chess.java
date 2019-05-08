@@ -8,13 +8,6 @@ public class Chess {
         boolean isCheck = false;
         boolean isCheckmate = false;
 
-        if(color.equals("undo")){
-
-
-
-            return "undo";
-        }
-
 
         if (color.equals("white")) {
             //player white
@@ -31,12 +24,6 @@ public class Chess {
             }
 
             String name = board[i][j].getPiece().toString().trim();
-
-            if (name.charAt(1) == 'K' && (q - i == 2 || i - q == 2)) {
-                if (isCheck == true) {
-                    return null;
-                }
-            }
 
             if (board[i][j].getPiece().isLegal(board, lastMove, color, name, i, j, p, q) == true) {
 
@@ -60,7 +47,6 @@ public class Chess {
                 }
 
 
-                if (isCheck == true) {
                     if (color.charAt(0) == 'w') {
                         if (whiteInCheck(board, lastMove) == true) {
                             if (check == false) {
@@ -116,7 +102,6 @@ public class Chess {
                             }
                         }
                     }
-                }
                 if (board[p][q].getPiece().toString().charAt(1) == 'P' && color.charAt(0) == 'w' && p == 7) {
                    ret = "promotion";
                    return ret;
@@ -125,8 +110,41 @@ public class Chess {
                     ret = "promotion";
                     return ret;
                 }
+                //checkmate and check
+                if(color.equals("white")){
+                    //player white
+                    isCheck = blackInCheck(board, lastMove);
+                    isCheckmate = checkmate(board, lastMove, "black");
+
+                    if(isCheck == true) {
+                        //look for checkmate
+                        if(isCheckmate == false) {
+                            lastMove.setLastMove(board[p][q].getPiece(), i, p);
+                            return "check";
+                        }
+                    }
+                    if(isCheckmate == true) {
+                        return "checkmate";
+                    }
+                }
+                if(color.equals("black")){
+                    //player white
+                    isCheck = whiteInCheck(board, lastMove);
+                    isCheckmate = checkmate(board, lastMove, "white");
+
+                    if(isCheck == true) {
+                        //look for checkmate
+                        if(isCheckmate == false) {
+                            lastMove.setLastMove(board[p][q].getPiece(), i, p);
+                            return "check";
+                        }
+                    }
+                    if(isCheckmate == true) {
+                        return "checkmate";
+                    }
+                }
+
                 lastMove.setLastMove(board[p][q].getPiece(), i, p);
-                chessboard.setPrevMove(lastMove);
                 //successful move
                 ret = "move";
                 return ret;
@@ -135,7 +153,44 @@ public class Chess {
 
             return null;
         }
+    public static boolean checkmate(Tile[][] board, Prev lastMove, String color) {
 
+        boolean check = true;
+
+        if(color.charAt(0) == 'w') {
+
+            for(int r = 0; r < 8; r++) {
+                for(int c = 0; c < 8; c++) {
+                    if(board[r][c].hasPiece()) {
+                        if(board[r][c].getPiece().toString().charAt(0) == 'w') {
+
+                            if(board[r][c].getPiece().checkWhiteMovement(board, lastMove, color, r, c, check) == false) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+        if(color.charAt(0) == 'b') {
+
+            for(int r = 0; r < 8; r++) {
+                for(int c = 0; c < 8; c++) {
+                    if(board[r][c].hasPiece()) {
+                        if(board[r][c].getPiece().toString().charAt(0) == 'b') {
+
+                            if(board[r][c].getPiece().checkBlackMovement(board, lastMove, color, r, c, check) == false) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+        return false;
+    }
         /**
          * method used to change a pawn to an other piece of the same color
          */
@@ -185,7 +240,6 @@ public class Chess {
                             p = r;
                             q = c;
                         }
-                        continue;
                     }
                 }
             }
@@ -234,7 +288,7 @@ public class Chess {
                             for(int q = 0; q < 8; q++){
                                 temp = game(chessboard, i, j, p, q, color, lastMove);
                                 if(temp != null){
-                                    String ret = i+""+j+""+p+""+q;
+                                    String ret = i+""+j+""+p+""+q+temp;
                                     return ret;
                                 }
                             }
@@ -245,7 +299,7 @@ public class Chess {
                             for(int q = 0; q < 8; q++){
                                 temp = game(chessboard, i, j, p, q, color, lastMove);
                                 if(temp != null){
-                                    String ret = i+""+j+""+p+""+q;
+                                    String ret = i+""+j+""+p+""+q+temp;
                                     return ret;
                                 }
                             }

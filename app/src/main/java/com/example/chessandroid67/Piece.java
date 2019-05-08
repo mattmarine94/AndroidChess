@@ -69,9 +69,7 @@ public static boolean wkCheck(Tile[][] board, Prev lastMove) {
 						p = r;
 						q = c;
 					}
-					continue;
 				}
-				continue;
 			}
 		}
 		
@@ -371,6 +369,7 @@ public static boolean wkCheck(Tile[][] board, Prev lastMove) {
 					}
 				}
 			}
+
 			if(i == 0 && j == 4 && p == i && q == j-2 && color.charAt(0) == 'w') {
 				if(!board[i][j-1].hasPiece() && !board[i][j-2].hasPiece() && board[0][0].hasPiece()) {
 					if(board[0][0].getPiece().toString().charAt(1) == 'R' && board[0][0].getPiece().toString().charAt(0) == 'w' && wkCheck(board, lastMove) == false) {
@@ -507,6 +506,7 @@ public static boolean wkCheck(Tile[][] board, Prev lastMove) {
 				}
 			}
 			if(i+1 == p && j == q){
+
 				return true;
 			}
 			if(i == p && j+1 == q){

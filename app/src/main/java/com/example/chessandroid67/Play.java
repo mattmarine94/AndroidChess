@@ -199,6 +199,8 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                         j = Integer.parseInt(String.valueOf(moves.charAt(1)));
                         p = Integer.parseInt(String.valueOf(moves.charAt(2)));
                         q = Integer.parseInt(String.valueOf(moves.charAt(3)));
+                        moves = moves.substring(4);
+                        System.out.println(moves);
                     }
                     if(drawReq && drawPlay == player){
                         Button drawBtn = findViewById(R.id.drawBtn);
@@ -217,13 +219,13 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                         drawBtn.setBackgroundResource(android.R.drawable.btn_default);
                         drawReq = false;
                     }
-                    makeMove(i, j, p, q);
+                    makeMove(i, j, p, q, moves);
                     clickCount = 0;
                 }
             }}
         }
 
-    public boolean makeMove(int i,int j,int p,int q){
+    public boolean makeMove(int i,int j,int p,int q, String moves){
         String sm = i+""+j+""+p+""+q;
         movelst.add(sm);
         ImageButton lastCapture = findViewById(R.id.lastCapture);
@@ -240,13 +242,29 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
         tile2.setForeground(tile1.getForeground());
         tile1.setForeground(null);
 
-        if(player%2==0){
+        if(player%2==0) {
             player--;
-            playerMove.setText(R.string.bMove);
+            if(moves.equals("checkmate")){
+                playerMove.setText(R.string.wCheckmate);
+            }
+            else if (moves.equals("check")) {
+                playerMove.setText(getString(R.string.bCheck));
+            }
+            else {
+                playerMove.setText(R.string.bMove);
+            }
         }
         else{
             player++;
-            playerMove.setText(R.string.wMove);
+            if(moves.equals("checkmate")){
+                playerMove.setText(R.string.bCheckmate);
+            }
+            else if (moves.equals("check")) {
+                playerMove.setText(getString(R.string.wCheck));
+            }
+            else {
+                playerMove.setText(R.string.wMove);
+            }
         }
 
         movelst.add("" + i + j + p + q);
@@ -297,9 +315,11 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
 
         if(player%2 ==0 ){
             playerMove.setText(R.string.bWin);
+            save();
         }
         else{
             playerMove.setText(R.string.wWin);
+            save();
         }
 
     }
@@ -343,9 +363,6 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
             playerMove.setText(R.string.wMove);
 
         }
-
-    }
-    public void aiClicked(String moves){
 
     }
 
