@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.ImageButton;
 import android.widget.Button;
+import java.util.ArrayList;
 
 
 public class Play extends AppCompatActivity implements View.OnClickListener {
@@ -22,6 +23,9 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
     int drawPlay = -1;
     int[] prevMove = new int[4];
     Piece tempP = null;
+    boolean doUndo = false;
+    ArrayList<String> movelst = new ArrayList<>();
+
 
 
     @Override
@@ -130,10 +134,22 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
         String moves;
 
             if(v.getTag().toString().equals("undo")){
+                if(doUndo == true)
                 undoClicked();
             }
             else if(v.getTag().toString().equals("ai")){
+                if(player%2 == 0){
+                    com.example.chessandroid67.Chess.autoMove(board, "white");
+                    player--;
+                    playerMove.setText(R.string.bMove);
 
+                }
+                else{
+                    com.example.chessandroid67.Chess.autoMove(board, "black");
+                    player++;
+                    playerMove.setText(R.string.wMove);
+                }
+                clickCount = 0;
             }
 
             else{ //tile was clicked
@@ -166,6 +182,9 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                     badMove.setText(R.string.illegal);
                     clickCount = 0;
                 } else {//successful move
+                    if(doUndo == false){
+                        doUndo = true;
+                    }
                     if(drawReq && drawPlay == player){
                         Button drawBtn = findViewById(R.id.drawBtn);
                         drawBtn.setBackgroundResource(android.R.color.holo_green_light);
@@ -190,6 +209,8 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
         }
 
     public boolean makeMove(View v, int i,int j,int p,int q, String moves){
+        String sm = i+""+j+""+p+""+q;
+        movelst.add(sm);
         ImageButton lastCapture = findViewById(R.id.lastCapture);
         prevMove[0] = i;
         prevMove[1] = j;
@@ -285,6 +306,7 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
 
     }
     public void undoClicked(){
+        doUndo = false;
         ImageButton lastCapture = findViewById(R.id.lastCapture);
         TextView playerMove = findViewById(R.id.playerMove);
 

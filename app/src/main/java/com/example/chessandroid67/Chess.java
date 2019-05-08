@@ -223,4 +223,8 @@ public class Chess {
 
         }
     }
+    public static void autoMove(Board chessboard, String color){
+
+
+    }
     }
