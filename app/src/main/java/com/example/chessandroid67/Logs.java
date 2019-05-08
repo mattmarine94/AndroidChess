@@ -27,7 +27,7 @@ public class Logs extends AppCompatActivity {
         setContentView(R.layout.activity_logs);
         TextView textView2 = findViewById(R.id.textView2);
         ListView  lstView = findViewById(R.id.lstView);
-    load();
+        load();
 
 
 
