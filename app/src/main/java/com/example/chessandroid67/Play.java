@@ -120,7 +120,7 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                              drawClicked();
+                        drawClicked();
                     }
                 });
                 builder.show();
@@ -136,12 +136,12 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
         TextView playerMove = findViewById(R.id.playerMove);
         String moves;
 
-            if(v.getTag().toString().equals("undo")){
-                if(doUndo == true)
+        if(v.getTag().toString().equals("undo")){
+            if(doUndo == true)
                 undoClicked();
-            }
+        }
 
-            else{ //tile was clicked
+        else{ //tile was clicked
 
             if (badMove.getText().toString().equals("Illegal move, try again")) {
                 badMove.setText(null);
@@ -167,7 +167,7 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                     else {
                         moves = com.example.chessandroid67.Chess.game(board, j, i, q, p, "white", lastMove);
                     }
-                    } else {
+                } else {
                     if(v.getTag().toString().equals("ai")){
                         moves = com.example.chessandroid67.Chess.autoMove(board, "black", lastMove);
                         playerMove.setText(R.string.wMove);
@@ -222,7 +222,7 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                     clickCount = 0;
                 }
             }}
-        }
+    }
 
     public boolean makeMove(int i,int j,int p,int q, String moves){
         String sm = i+""+j+""+p+""+q;
@@ -276,7 +276,7 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
             ret = a + ": ";
         }
         else{
-          ret = a;
+            ret = a;
         }
         int temp = Integer.parseInt(String.valueOf(b.charAt(1))) + 1;
         b = b.substring(0, 1) + temp;
@@ -369,7 +369,7 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
 
         Context context = this;
 
-      File file = new File(getFilesDir(), fileName);
+        File file = new File(getFilesDir(), fileName);
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(fileName, Context.MODE_PRIVATE));
             for(String s : movelst){
