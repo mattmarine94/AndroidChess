@@ -268,7 +268,6 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
             }
         }
 
-        movelst.add("" + i + j + p + q);
         return true;
     }
 
