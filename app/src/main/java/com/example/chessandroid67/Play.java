@@ -19,6 +19,7 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
     int clickCount = 0;
     int i, j, p, q;
     boolean gameStart = true;
+    boolean gameEnd = false;
     Board board = new Board();
     ImageButton[][] tiles = new ImageButton[8][8];
     boolean drawReq = false;
@@ -35,6 +36,7 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
+
         if(gameStart) {
             board.setBoard();
             gameStart = false;
@@ -161,20 +163,20 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                 }
                 if (player % 2 == 0) {
                     if(v.getTag().toString().equals("ai")){
-                        moves = com.example.chessandroid67.Chess.autoMove(board, "white", lastMove);
+                        moves = com.example.chessandroid67.Chess.autoMove(board, "white", lastMove, tiles);
                         playerMove.setText(R.string.bMove);
                     }
                     else {
-                        moves = com.example.chessandroid67.Chess.game(board, i, j, p, q, "white", lastMove);
+                        moves = com.example.chessandroid67.Chess.game(board, i, j, p, q, "white", lastMove, tiles);
                     }
                 } else {
                     if(v.getTag().toString().equals("ai")){
-                        moves = com.example.chessandroid67.Chess.autoMove(board, "black", lastMove);
+                        moves = com.example.chessandroid67.Chess.autoMove(board, "black", lastMove, tiles);
                         playerMove.setText(R.string.wMove);
                     }
                     else {
 
-                        moves = com.example.chessandroid67.Chess.game(board, i, j, p, q, "black", lastMove);
+                        moves = com.example.chessandroid67.Chess.game(board, i, j, p, q, "black", lastMove, tiles);
                     }
                 }
                 if (moves == null) {//illegal move
@@ -187,11 +189,10 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                     clickCount = 0;
                 } else {//successful move
                     Button btnUndo = findViewById(R.id.undoBtn);
-                    if(doUndo){
-                        btnUndo.setClickable(true);
-                    }
+
                     if(doUndo == false){
                         doUndo = true;
+                        btnUndo.setClickable(true);
                     }
                     if(v.getTag().toString().equals("ai")){
                         i = Integer.parseInt(String.valueOf(moves.charAt(0)));
