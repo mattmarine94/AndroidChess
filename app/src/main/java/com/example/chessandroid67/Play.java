@@ -1,13 +1,15 @@
 package com.example.chessandroid67;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.ImageButton;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import java.io.*;
 import java.util.ArrayList;
 
 
@@ -25,6 +27,7 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
     Piece tempP = null;
     boolean doUndo = false;
     ArrayList<String> movelst = new ArrayList<>();
+    String fileName = "logOfMoves";
 
 
 
@@ -235,6 +238,8 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
             player++;
             playerMove.setText(R.string.wMove);
         }
+
+        movelst.add("" + i + j + p + q);
         return true;
     }
 
@@ -303,6 +308,7 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
         else if(drawReq && drawPlay > -1){
             playerMove.setText(null);
             playerMove.setText(R.string.draw);
+            save();
 
         }
 
@@ -331,5 +337,22 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
 
     }
 
+    public void save(){
+
+        Context context = this;
+
+      File file = new File(getFilesDir(), fileName);
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(fileName, Context.MODE_PRIVATE));
+            for(String s : movelst){
+                outputStreamWriter.write(s);
+            }
+            outputStreamWriter.write("\n");
+            outputStreamWriter.close();
+        }
+        catch (IOException e) {
+
+        }
+    }
 
 }
