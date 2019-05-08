@@ -1,8 +1,10 @@
 package com.example.chessandroid67;
 
+import android.widget.ImageButton;
+
 public class Chess {
 
-    public static String game(Board chessboard, int i, int j, int p, int q, String color, Prev lastMove) {
+    public static String game(Board chessboard, int i, int j, int p, int q, String color, Prev lastMove, ImageButton tiles[][]) {
         String ret = null;
         Tile board[][] = chessboard.board;
         boolean isCheck = false;
@@ -77,13 +79,15 @@ public class Chess {
                             if (board[i][j + 1].getPiece().toString().charAt(1) == 'P' && board[i][j + 1].getPiece().toString().charAt(0) == 'b' && lastMove.getRow() != -1) {
                                 if (lastMove.getLastMove().equals(board[i][j + 1].getPiece()) && lastMove.getRow() - lastMove.getNewrow() == 2) {
                                     board[i][j + 1].removePiece();
+                                    tiles[i][j+1].setForeground(null);
                                 }
                             }
                         }
                         if (i + 1 == p && j - 1 == q && board[i][j - 1].hasPiece() && color.charAt(0) == 'w') {
                             if (board[i][j - 1].getPiece().toString().charAt(1) == 'P' && board[i][j - 1].getPiece().toString().charAt(0) == 'b' && lastMove.getRow() != -1) {
                                 if (lastMove.getLastMove().equals(board[i][j - 1].getPiece()) && lastMove.getRow() - lastMove.getNewrow() == 2) {
-                                    board[i][j + 1].removePiece();
+                                    board[i][j-1].removePiece();
+                                    tiles[i][j-1].setForeground(null);
                                 }
                             }
                         }
@@ -91,13 +95,15 @@ public class Chess {
                             if (board[i][j + 1].getPiece().toString().charAt(1) == 'P' && board[i][j + 1].getPiece().toString().charAt(0) == 'w' && lastMove.getRow() != -1) {
                                 if (lastMove.getLastMove().equals(board[i][j + 1].getPiece()) && lastMove.getNewrow() - lastMove.getRow() == 2) {
                                     board[i][j + 1].removePiece();
+                                    tiles[i][j+1].setForeground(null);
                                 }
                             }
                         }
                         if (i - 1 == p && j - 1 == q && board[i][j - 1].hasPiece() && color.charAt(0) == 'b') {
                             if (board[i][j - 1].getPiece().toString().charAt(1) == 'P' && board[i][j - 1].getPiece().toString().charAt(0) == 'w' && lastMove.getRow() != -1) {
                                 if (lastMove.getLastMove().equals(board[i][j - 1].getPiece()) && lastMove.getNewrow() - lastMove.getRow() == 2) {
-                                    board[i][j + 1].removePiece();
+                                    board[i][j-1].removePiece();
+                                    tiles[i][j-1].setForeground(null);
                                 }
                             }
                         }
@@ -277,7 +283,7 @@ public class Chess {
 
         }
     }
-    public static String autoMove(Board chessboard, String color, Prev lastMove){
+    public static String autoMove(Board chessboard, String color, Prev lastMove, ImageButton tiles[][]){
         Tile[][] board = chessboard.board;
         String temp = null;
         for(int i = 0; i < 8; i++){
@@ -286,7 +292,7 @@ public class Chess {
                     if(board[i][j].getPiece().getPlayer() == 0 && color.equals("white")){
                         for(int p = 0; p < 8; p++){
                             for(int q = 0; q < 8; q++){
-                                temp = game(chessboard, i, j, p, q, color, lastMove);
+                                temp = game(chessboard, i, j, p, q, color, lastMove, tiles);
                                 if(temp != null){
                                     String ret = i+""+j+""+p+""+q+temp;
                                     return ret;
@@ -297,7 +303,7 @@ public class Chess {
                     else if(board[i][j].getPiece().getPlayer() == 1 && color.equals("black")){
                         for(int p = 0; p < 8; p++){
                             for(int q = 0; q < 8; q++){
-                                temp = game(chessboard, i, j, p, q, color, lastMove);
+                                temp = game(chessboard, i, j, p, q, color, lastMove, tiles);
                                 if(temp != null){
                                     String ret = i+""+j+""+p+""+q+temp;
                                     return ret;
