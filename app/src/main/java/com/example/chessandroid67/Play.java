@@ -141,27 +141,13 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                 if(doUndo == true)
                 undoClicked();
             }
-            else if(v.getTag().toString().equals("ai")){
-                if(player%2 == 0){
-                    com.example.chessandroid67.Chess.autoMove(board, "white", lastMove);
-                    player--;
-                    playerMove.setText(R.string.bMove);
-
-                }
-                else{
-                    com.example.chessandroid67.Chess.autoMove(board, "black", lastMove);
-                    player++;
-                    playerMove.setText(R.string.wMove);
-                }
-                clickCount = 0;
-            }
 
             else{ //tile was clicked
 
             if (badMove.getText().toString().equals("Illegal move, try again")) {
                 badMove.setText(null);
             }
-            if (clickCount < 1) {
+            if (clickCount < 1 && !v.getTag().toString().equals("ai")) {
                 clickCount++;
                 i = Integer.parseInt(String.valueOf(v.getTag().toString().charAt(1)));
                 j = Integer.parseInt(String.valueOf(v.getTag().toString().charAt(2)));
@@ -169,13 +155,28 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                 playerMove.setText(disp);
             }
             else {
-                p = Integer.parseInt(String.valueOf(v.getTag().toString().charAt(1)));
-                q = Integer.parseInt(String.valueOf(v.getTag().toString().charAt(2)));
-                tempP = com.example.chessandroid67.Chess.getTempPiece(board, p, q);
+                if(!v.getTag().toString().equals("ai")){
+                    p = Integer.parseInt(String.valueOf(v.getTag().toString().charAt(1)));
+                    q = Integer.parseInt(String.valueOf(v.getTag().toString().charAt(2)));
+                    tempP = com.example.chessandroid67.Chess.getTempPiece(board, p, q);
+                }
                 if (player % 2 == 0) {
-                    moves = com.example.chessandroid67.Chess.game(board, i, j, p, q, "white", lastMove);
-                } else {
-                    moves = com.example.chessandroid67.Chess.game(board, i, j, p, q, "black", lastMove);
+                    if(v.getTag().toString().equals("ai")){
+                        moves = com.example.chessandroid67.Chess.autoMove(board, "white", lastMove);
+                        playerMove.setText(R.string.bMove);
+                    }
+                    else {
+                        moves = com.example.chessandroid67.Chess.game(board, i, j, p, q, "white", lastMove);
+                    }
+                    } else {
+                    if(v.getTag().toString().equals("ai")){
+                        moves = com.example.chessandroid67.Chess.autoMove(board, "black", lastMove);
+                        playerMove.setText(R.string.wMove);
+                    }
+                    else {
+
+                        moves = com.example.chessandroid67.Chess.game(board, i, j, p, q, "black", lastMove);
+                    }
                 }
                 if (moves == null) {//illegal move
                     if (player % 2 == 0) {
@@ -192,6 +193,12 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                     }
                     if(doUndo == false){
                         doUndo = true;
+                    }
+                    if(v.getTag().toString().equals("ai")){
+                        i = Integer.parseInt(String.valueOf(moves.charAt(0)));
+                        j = Integer.parseInt(String.valueOf(moves.charAt(1)));
+                        p = Integer.parseInt(String.valueOf(moves.charAt(2)));
+                        q = Integer.parseInt(String.valueOf(moves.charAt(3)));
                     }
                     if(drawReq && drawPlay == player){
                         Button drawBtn = findViewById(R.id.drawBtn);
@@ -210,13 +217,13 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                         drawBtn.setBackgroundResource(android.R.drawable.btn_default);
                         drawReq = false;
                     }
-                    makeMove(v, i, j, p, q, moves);
+                    makeMove(i, j, p, q);
                     clickCount = 0;
                 }
             }}
         }
 
-    public boolean makeMove(View v, int i,int j,int p,int q, String moves){
+    public boolean makeMove(int i,int j,int p,int q){
         String sm = i+""+j+""+p+""+q;
         movelst.add(sm);
         ImageButton lastCapture = findViewById(R.id.lastCapture);
@@ -338,7 +345,7 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
         }
 
     }
-    public void aiClicked(){
+    public void aiClicked(String moves){
 
     }
 

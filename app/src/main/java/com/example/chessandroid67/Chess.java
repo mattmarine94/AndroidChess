@@ -225,13 +225,15 @@ public class Chess {
     }
     public static String autoMove(Board chessboard, String color, Prev lastMove){
         Tile[][] board = chessboard.board;
+        String temp = null;
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 8; j++){
                 if(board[i][j].hasPiece()){
                     if(board[i][j].getPiece().getPlayer() == 0 && color.equals("white")){
                         for(int p = 0; p < 8; p++){
                             for(int q = 0; q < 8; q++){
-                                if(game(chessboard, i, j, p, q, color, lastMove).equals("move")){
+                                temp = game(chessboard, i, j, p, q, color, lastMove);
+                                if(temp != null){
                                     String ret = i+""+j+""+p+""+q;
                                     return ret;
                                 }
@@ -241,7 +243,8 @@ public class Chess {
                     else if(board[i][j].getPiece().getPlayer() == 1 && color.equals("black")){
                         for(int p = 0; p < 8; p++){
                             for(int q = 0; q < 8; q++){
-                                if(game(chessboard, i, j, p, q, color, lastMove).equals("move")){
+                                temp = game(chessboard, i, j, p, q, color, lastMove);
+                                if(temp != null){
                                     String ret = i+""+j+""+p+""+q;
                                     return ret;
                                 }
