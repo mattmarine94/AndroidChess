@@ -245,6 +245,7 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
             player--;
             if(moves.equals("checkmate")){
                 playerMove.setText(R.string.wCheckmate);
+                save();
             }
             else if (moves.equals("check")) {
                 playerMove.setText(getString(R.string.bCheck));
@@ -257,6 +258,7 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
             player++;
             if(moves.equals("checkmate")){
                 playerMove.setText(R.string.bCheckmate);
+                save();
             }
             else if (moves.equals("check")) {
                 playerMove.setText(getString(R.string.wCheck));
