@@ -11,9 +11,10 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.EditText;
+import android.widget.Toast;
 import java.io.*;
 import java.util.ArrayList;
-import android.content.Intent;
+
 
 
 public class Play extends AppCompatActivity implements View.OnClickListener {
@@ -22,7 +23,6 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
     int clickCount = 0;
     int i, j, p, q;
     boolean gameStart = true;
-    boolean gameEnd = false;
     Board board = new Board();
     ImageButton[][] tiles = new ImageButton[8][8];
     boolean drawReq = false;
@@ -31,7 +31,7 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
     Piece tempP = null;
     boolean doUndo = false;
     ArrayList<String> movelst = new ArrayList<>();
-    String fileName = "logOfMoves";
+    String fileName = "logOfMoves.txt";
     Prev lastMove = new Prev();
 
 
@@ -407,31 +407,23 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 name = input.getText().toString();
-                String concat = "\n";
-                FileOutputStream fos = null;
-
+                TextView playerMove = findViewById(R.id.playerMove);
 
                 try {
-                    fos = openFileOutput(fileName, MODE_PRIVATE);
-                    fos.write(name.getBytes());
-                    fos.write(concat.getBytes());
-
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(fileName, Context.MODE_PRIVATE));
+                    outputStreamWriter.write(name + "\n");
                     for (String s : movelst) {
-                        fos.write(s.getBytes());
+                        outputStreamWriter.write(s);
+                        System.out.println(s);
                     }
-                    fos.write(concat.getBytes());
-                    //Toast.makeText(this, "Saved to " + getFilesDir() + "/" + fileName, Toast.LENGTH_LONG).show();
 
-                    if (fos != null) {
+                    outputStreamWriter.write(playerMove.getText().toString());
 
-                        fos.close();
-                    }
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    outputStreamWriter.close();
                 }
+                catch (IOException e) {
 
+                }
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -444,8 +436,9 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
         builder.show();
 
         setGameEnd();
-
     }
+
+
     public void setGameEnd(){
 
         Button resBtn = findViewById(R.id.resBtn);
