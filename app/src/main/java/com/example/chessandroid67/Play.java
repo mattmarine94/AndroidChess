@@ -5,10 +5,14 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -27,22 +31,19 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
     Piece tempP = null;
     boolean doUndo = false;
     ArrayList<String> movelst = new ArrayList<>();
-    String fileName = "logOfMoves";
-
-
-
+    String fileName = "logOfMoves.txt";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
-        if(gameStart) {
+        if (gameStart) {
             board.setBoard();
             gameStart = false;
         }
 
-        for(int r = 0; r <= 7; r++) {
+        for (int r = 0; r <= 7; r++) {
             for (int c = 0; c <= 7; c++) {
                 String bID = "t" + r + "" + c;
                 int resID = getResources().getIdentifier(bID, "id", getPackageName());
@@ -62,7 +63,7 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
         aiBtn.setOnClickListener(this);
 
         //draw and resign from here on
-        if(drawPlay > -1 && drawPlay != player){
+        if (drawPlay > -1 && drawPlay != player) {
             drawBtn.setClickable(true);
         }
 
@@ -97,11 +98,10 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(Play.this);
                 builder.setCancelable(true);
-                if(drawReq == false){
+                if (drawReq == false) {
                     builder.setTitle("Draw proposal");
                     builder.setMessage("Would you like to request a Draw?");
-                }
-                else{
+                } else {
                     builder.setTitle("Draw request from other player");
                     builder.setMessage("would you like to accept the draw request?");
                 }
@@ -122,7 +122,7 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                              drawClicked();
+                        drawClicked();
                     }
                 });
                 builder.show();
@@ -131,33 +131,28 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
     }
 
 
-
     @Override
-    public void onClick(View v){
-        TextView badMove = findViewById(R. id.badMove);
+    public void onClick(View v) {
+        TextView badMove = findViewById(R.id.badMove);
         TextView playerMove = findViewById(R.id.playerMove);
         String moves;
 
-            if(v.getTag().toString().equals("undo")){
-                if(doUndo == true)
+        if (v.getTag().toString().equals("undo")) {
+            if (doUndo == true)
                 undoClicked();
-            }
-            else if(v.getTag().toString().equals("ai")){
-                if(player%2 == 0){
-                    com.example.chessandroid67.Chess.autoMove(board, "white");
-                    player--;
-                    playerMove.setText(R.string.bMove);
+        } else if (v.getTag().toString().equals("ai")) {
+            if (player % 2 == 0) {
+                com.example.chessandroid67.Chess.autoMove(board, "white");
+                player--;
+                playerMove.setText(R.string.bMove);
 
-                }
-                else{
-                    com.example.chessandroid67.Chess.autoMove(board, "black");
-                    player++;
-                    playerMove.setText(R.string.wMove);
-                }
-                clickCount = 0;
+            } else {
+                com.example.chessandroid67.Chess.autoMove(board, "black");
+                player++;
+                playerMove.setText(R.string.wMove);
             }
-
-            else{ //tile was clicked
+            clickCount = 0;
+        } else { //tile was clicked
 
             if (badMove.getText().toString().equals("Illegal move, try again")) {
                 badMove.setText(null);
@@ -168,8 +163,7 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                 j = Integer.parseInt(String.valueOf(v.getTag().toString().charAt(2)));
                 String disp = getDisplayMessage((String) playerMove.getText(), v.getTag().toString().substring(1), clickCount);
                 playerMove.setText(disp);
-            }
-            else {
+            } else {
                 p = Integer.parseInt(String.valueOf(v.getTag().toString().charAt(1)));
                 q = Integer.parseInt(String.valueOf(v.getTag().toString().charAt(2)));
                 tempP = com.example.chessandroid67.Chess.getTempPiece(board, p, q);
@@ -187,18 +181,17 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                     badMove.setText(R.string.illegal);
                     clickCount = 0;
                 } else {//successful move
-                    if(doUndo == false){
+                    if (doUndo == false) {
                         doUndo = true;
                     }
-                    if(drawReq && drawPlay == player){
+                    if (drawReq && drawPlay == player) {
                         Button drawBtn = findViewById(R.id.drawBtn);
                         drawBtn.setBackgroundResource(android.R.color.holo_green_light);
                         drawBtn.setText(R.string.draw2);
                         String s = "Other player REQUESTED a DRAW";
                         badMove.setText(s);
                         drawBtn.setClickable(true);
-                    }
-                    else{
+                    } else {
                         drawPlay = -1;
                         Button drawBtn = findViewById(R.id.drawBtn);
                         String dr = "DRAW";
@@ -210,11 +203,12 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                     makeMove(v, i, j, p, q, moves);
                     clickCount = 0;
                 }
-            }}
+            }
         }
+    }
 
-    public boolean makeMove(View v, int i,int j,int p,int q, String moves){
-        String sm = i+""+j+""+p+""+q;
+    public boolean makeMove(View v, int i, int j, int p, int q, String moves) {
+        String sm = i + "" + j + "" + p + "" + q;
         movelst.add(sm);
         ImageButton lastCapture = findViewById(R.id.lastCapture);
         prevMove[0] = i;
@@ -230,11 +224,10 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
         tile2.setForeground(tile1.getForeground());
         tile1.setForeground(null);
 
-        if(player%2==0){
+        if (player % 2 == 0) {
             player--;
             playerMove.setText(R.string.bMove);
-        }
-        else{
+        } else {
             player++;
             playerMove.setText(R.string.wMove);
         }
@@ -243,39 +236,38 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
         return true;
     }
 
-    public String getDisplayMessage(String a, String b, int count){
+    public String getDisplayMessage(String a, String b, int count) {
         String ret;
-        if(clickCount == 1){
+        if (clickCount == 1) {
             ret = a + ": ";
-        }
-        else{
-          ret = a;
+        } else {
+            ret = a;
         }
         int temp = Integer.parseInt(String.valueOf(b.charAt(1))) + 1;
         b = b.substring(0, 1) + temp;
 
-        if(b.charAt(0) == '0'){
+        if (b.charAt(0) == '0') {
             b = "a" + b.substring(1);
         }
-        if(b.charAt(0) == '1'){
+        if (b.charAt(0) == '1') {
             b = "b" + b.substring(1);
         }
-        if(b.charAt(0) == '2'){
+        if (b.charAt(0) == '2') {
             b = "c" + b.substring(1);
         }
-        if(b.charAt(0) == '3'){
+        if (b.charAt(0) == '3') {
             b = "d" + b.substring(1);
         }
-        if(b.charAt(0) == '4'){
+        if (b.charAt(0) == '4') {
             b = "e" + b.substring(1);
         }
-        if(b.charAt(0) == '5'){
+        if (b.charAt(0) == '5') {
             b = "f" + b.substring(1);
         }
-        if(b.charAt(0) == '6'){
+        if (b.charAt(0) == '6') {
             b = "g" + b.substring(1);
         }
-        if(b.charAt(0) == '7'){
+        if (b.charAt(0) == '7') {
             b = "h" + b.substring(1);
         }
 
@@ -283,37 +275,41 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
         return ret;
     }
 
-    public void resignClicked(TextView playerMove){
+    public void resignClicked(TextView playerMove) {
 
-        if(player%2 ==0 ){
+        if (player % 2 == 0) {
             playerMove.setText(R.string.bWin);
-        }
-        else{
+        } else {
             playerMove.setText(R.string.wWin);
         }
 
     }
-    public void drawClicked(){
-        TextView badMove = findViewById(R. id.badMove);
+
+    public void drawClicked() {
+        TextView badMove = findViewById(R.id.badMove);
         Button drawBtn = findViewById(R.id.drawBtn);
         TextView playerMove = findViewById(R.id.playerMove);
 
-        if(!drawReq && drawPlay == -1){
+        if (!drawReq && drawPlay == -1) {
             drawReq = true;
             drawPlay = player;
             drawBtn.setText(R.string.pend);
             badMove.setText(R.string.sentreq);
             drawBtn.setClickable(false);
-        }
-        else if(drawReq && drawPlay > -1){
+        } else if (drawReq && drawPlay > -1) {
             playerMove.setText(null);
             playerMove.setText(R.string.draw);
-            save();
+            try {
+                save();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         }
 
     }
-    public void undoClicked(){
+
+    public void undoClicked() {
         doUndo = false;
         ImageButton lastCapture = findViewById(R.id.lastCapture);
         TextView playerMove = findViewById(R.id.playerMove);
@@ -322,37 +318,82 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
         tiles[i][j].setForeground(tiles[p][q].getForeground());
         tiles[p][q].setForeground(lastCapture.getForeground());
 
-        if(player%2 == 0){
+        if (player % 2 == 0) {
             player--;
             playerMove.setText(R.string.bMove);
-        }
-        else{
+        } else {
             player++;
             playerMove.setText(R.string.wMove);
 
         }
 
     }
-    public void aiClicked(){
+
+    public void aiClicked() {
 
     }
 
-    public void save(){
+    private String name = "";
+    Context context = this;
 
-        Context context = this;
+    public void save() throws IOException{
 
-      File file = new File(getFilesDir(), fileName);
-        try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(fileName, Context.MODE_PRIVATE));
-            for(String s : movelst){
-                outputStreamWriter.write(s);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Save Game?");
+        builder.setMessage("Name the game if you want to save it");
+
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                name = input.getText().toString();
+                String concat =  "\n";
+                FileOutputStream fos = null;
+
+
+                try {
+                    fos = openFileOutput(fileName, MODE_PRIVATE);
+                    fos.write(name.getBytes());
+                    fos.write(concat.getBytes());
+
+                for(String s : movelst) {
+                    fos.write(s.getBytes());
+                }
+                fos.write(concat.getBytes());
+                //Toast.makeText(this, "Saved to " + getFilesDir() + "/" + fileName, Toast.LENGTH_LONG).show();
+
+                if (fos != null) {
+
+                    fos.close();
+                }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
-            outputStreamWriter.write("\n");
-            outputStreamWriter.close();
-        }
-        catch (IOException e) {
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+
+
+
 
         }
     }
 
-}
+
+
+
+

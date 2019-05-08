@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import java.io.*;
 
@@ -11,48 +13,62 @@ import java.util.ArrayList;
 
 public class Logs extends AppCompatActivity {
 
-    String fileName = "logOfMoves";
+    private final String fileName = "logOfMoves.txt";
     ArrayList<String> log = new ArrayList<String>();
     Context context = this;
+    String logMoves;
+    ListView lstView;
+    TextView textView2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logs);
-
+        TextView textView2 = findViewById(R.id.textView2);
+        ListView  lstView = findViewById(R.id.lstView);
+    load();
 
 
 
 
     }
 
-    private String readFromFile(Context context) {
+    public void load() {
 
-        String ret = "";
+        FileInputStream fis = null;
 
         try {
-            InputStream inputStream = context.openFileInput(fileName);
+            fis = openFileInput(fileName);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String text;
 
-            if ( inputStream != null ) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
-                StringBuilder stringBuilder = new StringBuilder();
+            while ((text = br.readLine()) != null) {
+                sb.append(text);
+                textView2.setText(R.string.debug);
+            }
 
-                while ( (receiveString = bufferedReader.readLine()) != null ) {
-                    stringBuilder.append(receiveString);
+
+
+            //LstView.ad(sb.toString());
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-
-                inputStream.close();
-                ret = stringBuilder.toString();
             }
         }
-        catch (FileNotFoundException e) {
-            Log.e("login activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("login activity", "Can not read file: " + e.toString());
-        }
-
-        return ret;
     }
-}
+
+
+    }
+

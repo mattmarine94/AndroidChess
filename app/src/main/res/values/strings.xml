@@ -14,4 +14,5 @@
     <string name="sent">Sent</string>
     <string name="sentreq">Sent draw request. Make a move.</string>
     <string name="pend">pending</string>
+    <string name = "debug">reading file</string>
 </resources>
