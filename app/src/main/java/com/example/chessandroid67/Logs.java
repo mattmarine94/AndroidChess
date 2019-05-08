@@ -47,7 +47,6 @@ public class Logs extends AppCompatActivity {
 
             while ((text = br.readLine()) != null) {
                 sb.append(text);
-                textView2.setText(R.string.debug);
             }
 
 

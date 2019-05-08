@@ -14,7 +14,7 @@
     <string name="sent">Sent</string>
     <string name="sentreq">Sent draw request. Make a move.</string>
     <string name="pend">pending</string>
-    <string name="bCheckmate">\"Checkmate. Black Wins!</string>
+    <string name="bCheckmate">\Checkmate. Black Wins!</string>
     <string name="wCheckmate">Checkmate. White Wins!</string>
     <string name="bCheck">CHECK. Black\'s Move</string>
     <string name="wCheck">Check. White\'s move</string>
