@@ -2,7 +2,6 @@ package com.example.chessandroid67;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -166,7 +165,7 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                         playerMove.setText(R.string.bMove);
                     }
                     else {
-                        moves = com.example.chessandroid67.Chess.game(board, i, j, p, q, "white", lastMove);
+                        moves = com.example.chessandroid67.Chess.game(board, j, i, q, p, "white", lastMove);
                     }
                     } else {
                     if(v.getTag().toString().equals("ai")){
@@ -175,7 +174,7 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                     }
                     else {
 
-                        moves = com.example.chessandroid67.Chess.game(board, i, j, p, q, "black", lastMove);
+                        moves = com.example.chessandroid67.Chess.game(board, j, i, q, p, "black", lastMove);
                     }
                 }
                 if (moves == null) {//illegal move
