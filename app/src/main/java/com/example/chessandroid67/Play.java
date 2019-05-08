@@ -24,6 +24,8 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
     Piece tempP = null;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
