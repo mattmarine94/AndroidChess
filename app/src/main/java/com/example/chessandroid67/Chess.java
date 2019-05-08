@@ -2,9 +2,8 @@ package com.example.chessandroid67;
 
 public class Chess {
 
-    public static String game(Board chessboard, int i, int j, int p, int q, String color) {
+    public static String game(Board chessboard, int i, int j, int p, int q, String color, Prev lastMove) {
         String ret = null;
-        Prev lastMove = new Prev();
         Tile board[][] = chessboard.board;
         boolean isCheck = false;
         boolean isCheckmate = false;
@@ -224,7 +223,7 @@ public class Chess {
 
         }
     }
-    public static String autoMove(Board chessboard, String color){
+    public static String autoMove(Board chessboard, String color, Prev lastMove){
         Tile[][] board = chessboard.board;
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 8; j++){
@@ -232,7 +231,7 @@ public class Chess {
                     if(board[i][j].getPiece().getPlayer() == 0 && color.equals("white")){
                         for(int p = 0; p < 8; p++){
                             for(int q = 0; q < 8; q++){
-                                if(game(chessboard, i, j, p, q, color).equals("move")){
+                                if(game(chessboard, i, j, p, q, color, lastMove).equals("move")){
                                     String ret = i+""+j+""+p+""+q;
                                     return ret;
                                 }
@@ -242,7 +241,7 @@ public class Chess {
                     else if(board[i][j].getPiece().getPlayer() == 1 && color.equals("black")){
                         for(int p = 0; p < 8; p++){
                             for(int q = 0; q < 8; q++){
-                                if(game(chessboard, i, j, p, q, color).equals("move")){
+                                if(game(chessboard, i, j, p, q, color, lastMove).equals("move")){
                                     String ret = i+""+j+""+p+""+q;
                                     return ret;
                                 }
