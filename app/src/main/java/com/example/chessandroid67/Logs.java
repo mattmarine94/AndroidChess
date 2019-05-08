@@ -1,10 +1,13 @@
 package com.example.chessandroid67;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,24 +23,33 @@ public class Logs extends AppCompatActivity {
     String logMoves;
     String logName = "";
     ArrayList<String> names = new ArrayList<String>();
-    ListView lstView;
-    TextView textView2;
+
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logs);
+        ListView lstView = findViewById(R.id.lstView);
         TextView textView2 = findViewById(R.id.textView2);
-        ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.listlogs,names);
-        ListView  lstView = findViewById(R.id.lstView);
-        load();
-        lstView.setAdapter(adapter);
+        Button btnDefault = findViewById(R.id.btnDefault);
+        names.add("Daniel Cherdak");
+        names.add("Matthew");
 
-       // lstView.addFooterView(lstView, logName, true);
 
+
+        btnDefault.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Logs.this, Watch.class);
+                intent.putExtra("logOfMoves", logMoves);
+                startActivity(intent);
+            }
+        });
 
     }
+
 
     public void load() {
 
