@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,6 +18,8 @@ public class Logs extends AppCompatActivity {
     ArrayList<String> log = new ArrayList<String>();
     Context context = this;
     String logMoves;
+    String logName = "";
+    ArrayList<String> names = new ArrayList<String>();
     ListView lstView;
     TextView textView2;
 
@@ -26,10 +29,12 @@ public class Logs extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logs);
         TextView textView2 = findViewById(R.id.textView2);
+        ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.listlogs,names);
         ListView  lstView = findViewById(R.id.lstView);
         load();
+        lstView.setAdapter(adapter);
 
-
+       // lstView.addFooterView(lstView, logName, true);
 
 
     }
@@ -43,15 +48,34 @@ public class Logs extends AppCompatActivity {
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader br = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();
+            StringBuilder sa = new StringBuilder();
             String text;
-
+            int counter = 0;
             while ((text = br.readLine()) != null) {
-                sb.append(text);
+                if(text.equals("\n") == false) {
+                    sb.append(text);
+                }
+                else{
+                    counter++;
+                    logName = sb.toString();
+                    names.add(logName);
+                    sb.setLength(0);
+                }
+
+                if (counter == 1 &&text.equals("\n") == false) {
+                    sa.append(text);
+                }else{
+                    counter--;
+                    logMoves = sa.toString();
+                    log.add(logMoves);
+                    sa.setLength(0);
+                }
+
             }
 
 
 
-            //LstView.ad(sb.toString());
+
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
