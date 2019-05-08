@@ -299,6 +299,7 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
         else{
             player++;
             playerMove.setText(R.string.wMove);
+
         }
 
     }

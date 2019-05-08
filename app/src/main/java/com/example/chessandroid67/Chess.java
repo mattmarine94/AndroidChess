@@ -220,6 +220,7 @@ public class Chess {
         board[p][q].removePiece();
         if(tempP != null){
             board[p][q].setPiece(tempP);
+
         }
     }
     }
