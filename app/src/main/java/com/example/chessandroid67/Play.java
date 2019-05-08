@@ -285,19 +285,20 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
 
     }
     public void undoClicked(){
-        String undoMoves;
         ImageButton lastCapture = findViewById(R.id.lastCapture);
+        TextView playerMove = findViewById(R.id.playerMove);
 
         com.example.chessandroid67.Chess.resetMoves(board, prevMove[0], prevMove[1], prevMove[2], prevMove[3], tempP);
         tiles[i][j].setForeground(tiles[p][q].getForeground());
         tiles[p][q].setForeground(lastCapture.getForeground());
 
-
         if(player%2 == 0){
             player--;
+            playerMove.setText(R.string.bMove);
         }
         else{
             player++;
+            playerMove.setText(R.string.wMove);
         }
 
     }
