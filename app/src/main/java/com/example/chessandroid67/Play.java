@@ -5,12 +5,15 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.EditText;
 import java.io.*;
 import java.util.ArrayList;
+import android.content.Intent;
 
 
 public class Play extends AppCompatActivity implements View.OnClickListener {
@@ -136,6 +139,7 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v){
         TextView badMove = findViewById(R. id.badMove);
         TextView playerMove = findViewById(R.id.playerMove);
+        ImageButton lastCapture = findViewById(R.id.lastCapture);
         String moves;
 
         if(v.getTag().toString().equals("undo")){
@@ -156,6 +160,11 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                 playerMove.setText(disp);
             }
             else {
+                String t = null;
+                if(lastCapture.getTag() != null){
+                    t = lastCapture.getTag().toString();
+                }
+                lastCapture.setTag(null);
                 if(!v.getTag().toString().equals("ai")){
                     p = Integer.parseInt(String.valueOf(v.getTag().toString().charAt(1)));
                     q = Integer.parseInt(String.valueOf(v.getTag().toString().charAt(2)));
@@ -163,23 +172,24 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                 }
                 if (player % 2 == 0) {
                     if(v.getTag().toString().equals("ai")){
-                        moves = com.example.chessandroid67.Chess.autoMove(board, "white", lastMove, tiles);
+                        moves = com.example.chessandroid67.Chess.autoMove(board, "white", lastMove, tiles, lastCapture);
                         playerMove.setText(R.string.bMove);
                     }
                     else {
-                        moves = com.example.chessandroid67.Chess.game(board, i, j, p, q, "white", lastMove, tiles);
+                        moves = com.example.chessandroid67.Chess.game(board, i, j, p, q, "white", lastMove, tiles, lastCapture);
                     }
                 } else {
                     if(v.getTag().toString().equals("ai")){
-                        moves = com.example.chessandroid67.Chess.autoMove(board, "black", lastMove, tiles);
+                        moves = com.example.chessandroid67.Chess.autoMove(board, "black", lastMove, tiles, lastCapture);
                         playerMove.setText(R.string.wMove);
                     }
                     else {
 
-                        moves = com.example.chessandroid67.Chess.game(board, i, j, p, q, "black", lastMove, tiles);
+                        moves = com.example.chessandroid67.Chess.game(board, i, j, p, q, "black", lastMove, tiles, lastCapture);
                     }
                 }
                 if (moves == null) {//illegal move
+                    lastCapture.setTag(t);
                     if (player % 2 == 0) {
                         playerMove.setText(R.string.wMove);
                     } else {
@@ -233,7 +243,10 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
         prevMove[1] = j;
         prevMove[2] = p;
         prevMove[3] = q;
-        lastCapture.setForeground(tiles[p][q].getForeground());
+
+        if(lastCapture.getTag() == null){
+            lastCapture.setForeground(tiles[p][q].getForeground());
+        }
 
         ImageButton tile1 = tiles[i][j];
         ImageButton tile2 = tiles[p][q];
@@ -351,9 +364,18 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
         Button undoBtn = findViewById(R.id.undoBtn);
         undoBtn.setClickable(false);
 
-        com.example.chessandroid67.Chess.resetMoves(board, prevMove[0], prevMove[1], prevMove[2], prevMove[3], tempP);
+        com.example.chessandroid67.Chess.resetMoves(board, prevMove[0], prevMove[1], prevMove[2], prevMove[3], tempP, lastCapture);
         tiles[i][j].setForeground(tiles[p][q].getForeground());
-        tiles[p][q].setForeground(lastCapture.getForeground());
+        if(lastCapture.getTag() == null){
+            tiles[p][q].setForeground(lastCapture.getForeground());
+        }
+        else{
+            int r = Integer.parseInt(String.valueOf(lastCapture.getTag().toString().charAt(0)));
+            int c = Integer.parseInt(String.valueOf(lastCapture.getTag().toString().charAt(1)));
+            tiles[r][c].setForeground(lastCapture.getForeground());
+            tiles[p][q].setForeground(null);
+
+        }
 
         if(player%2 == 0){
             player--;
@@ -367,22 +389,85 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
 
     }
 
-    public void save(){
 
-        Context context = this;
+    private String name = "";
+    Context context = this;
 
-        File file = new File(getFilesDir(), fileName);
-        try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(fileName, Context.MODE_PRIVATE));
-            for(String s : movelst){
-                outputStreamWriter.write(s);
+    public void save() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Save Game?");
+        builder.setMessage("Name the game if you want to save it");
+
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                name = input.getText().toString();
+                String concat = "\n";
+                FileOutputStream fos = null;
+
+
+                try {
+                    fos = openFileOutput(fileName, MODE_PRIVATE);
+                    fos.write(name.getBytes());
+                    fos.write(concat.getBytes());
+
+                    for (String s : movelst) {
+                        fos.write(s.getBytes());
+                    }
+                    fos.write(concat.getBytes());
+                    //Toast.makeText(this, "Saved to " + getFilesDir() + "/" + fileName, Toast.LENGTH_LONG).show();
+
+                    if (fos != null) {
+
+                        fos.close();
+                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
-            outputStreamWriter.write("\n");
-            outputStreamWriter.close();
-        }
-        catch (IOException e) {
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
 
+        builder.show();
+
+        setGameEnd();
+
+    }
+    public void setGameEnd(){
+
+        Button resBtn = findViewById(R.id.resBtn);
+        Button drawBtn = findViewById(R.id.resBtn);
+        Button aiBtn = findViewById(R.id.resBtn);
+        Button undoBtn = findViewById(R.id.resBtn);
+
+        resBtn.setVisibility(View.GONE);
+        resBtn.setClickable(false);
+        drawBtn.setVisibility(View.GONE);
+        drawBtn.setClickable(false);
+        undoBtn.setVisibility(View.GONE);
+        undoBtn.setClickable(false);
+        aiBtn.setVisibility(View.GONE);
+        aiBtn.setClickable(false);
+
+        for(int r = 0; r <= 7; r++) {
+            for (int c = 0; c <= 7; c++) {
+                tiles[r][c].setClickable(false);
+            }
         }
+
     }
 
 }
