@@ -30,145 +30,161 @@
             android:alpha="128"
             android:background="@drawable/light"
             android:clickable="true"
+            android:foreground="@drawable/br"
             android:visibility="visible"
             app:layout_column="0"
             app:layout_row="0"
-            app:srcCompat="@drawable/br" />
+            app:srcCompat="@drawable/light" />
 
         <ImageView
             android:id="@+id/t71"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/dark"
+            android:foreground="@drawable/bn"
             app:layout_column="1"
             app:layout_row="0"
-            app:srcCompat="@drawable/bn" />
+            app:srcCompat="@drawable/dark" />
 
         <ImageView
             android:id="@+id/t72"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/light"
+            android:foreground="@drawable/bb"
             app:layout_column="2"
             app:layout_row="0"
-            app:srcCompat="@drawable/bb" />
+            app:srcCompat="@drawable/light" />
 
         <ImageView
             android:id="@+id/t73"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/dark"
+            android:foreground="@drawable/bq"
             app:layout_column="3"
             app:layout_row="0"
-            app:srcCompat="@drawable/bq" />
+            app:srcCompat="@drawable/dark" />
 
         <ImageView
             android:id="@+id/t74"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/light"
+            android:foreground="@drawable/bk"
             app:layout_column="4"
             app:layout_row="0"
-            app:srcCompat="@drawable/bk" />
+            app:srcCompat="@drawable/light" />
 
         <ImageView
             android:id="@+id/t75"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/dark"
+            android:foreground="@drawable/bb"
             app:layout_column="5"
             app:layout_row="0"
-            app:srcCompat="@drawable/bb" />
+            app:srcCompat="@drawable/dark" />
 
         <ImageView
             android:id="@+id/t76"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/light"
+            android:foreground="@drawable/bn"
             app:layout_column="6"
             app:layout_row="0"
-            app:srcCompat="@drawable/bn" />
+            app:srcCompat="@drawable/light" />
 
         <ImageView
             android:id="@+id/t77"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/dark"
+            android:foreground="@drawable/br"
             app:layout_column="7"
             app:layout_row="0"
-            app:srcCompat="@drawable/br" />
+            app:srcCompat="@drawable/dark" />
 
         <ImageView
             android:id="@+id/t60"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/dark"
+            android:foreground="@drawable/bp"
             app:layout_column="0"
             app:layout_row="1"
-            app:srcCompat="@drawable/bp" />
+            app:srcCompat="@drawable/dark" />
 
         <ImageView
             android:id="@+id/t61"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/light"
+            android:foreground="@drawable/bp"
             app:layout_column="1"
             app:layout_row="1"
-            app:srcCompat="@drawable/bp" />
+            app:srcCompat="@drawable/light" />
 
         <ImageView
             android:id="@+id/t62"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/dark"
+            android:foreground="@drawable/bp"
             app:layout_column="2"
             app:layout_row="1"
-            app:srcCompat="@drawable/bp" />
+            app:srcCompat="@drawable/dark" />
 
         <ImageView
             android:id="@+id/t63"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/light"
+            android:foreground="@drawable/bp"
             app:layout_column="3"
             app:layout_row="1"
-            app:srcCompat="@drawable/bp" />
+            app:srcCompat="@drawable/light" />
 
         <ImageView
             android:id="@+id/t64"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/dark"
+            android:foreground="@drawable/bp"
             app:layout_column="4"
             app:layout_row="1"
-            app:srcCompat="@drawable/bp" />
+            app:srcCompat="@drawable/dark" />
 
         <ImageView
             android:id="@+id/t65"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/light"
+            android:foreground="@drawable/bp"
             app:layout_column="5"
             app:layout_row="1"
-            app:srcCompat="@drawable/bp" />
+            app:srcCompat="@drawable/light" />
 
         <ImageView
             android:id="@+id/t66"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/dark"
+            android:foreground="@drawable/bp"
             app:layout_column="6"
             app:layout_row="1"
-            app:srcCompat="@drawable/bp" />
+            app:srcCompat="@drawable/dark" />
 
         <ImageView
             android:id="@+id/t67"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/light"
+            android:foreground="@drawable/bp"
             app:layout_column="7"
             app:layout_row="1"
-            app:srcCompat="@drawable/bp" />
+            app:srcCompat="@drawable/light" />
 
         <ImageView
             android:id="@+id/t50"
@@ -464,144 +480,160 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/light"
+            android:foreground="@drawable/wp"
             app:layout_column="0"
             app:layout_row="6"
-            app:srcCompat="@drawable/wp" />
+            app:srcCompat="@drawable/light" />
 
         <ImageView
             android:id="@+id/t11"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/dark"
+            android:foreground="@drawable/wp"
             app:layout_column="1"
             app:layout_row="6"
-            app:srcCompat="@drawable/wp" />
+            app:srcCompat="@drawable/dark" />
 
         <ImageView
             android:id="@+id/t12"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/light"
+            android:foreground="@drawable/wp"
             app:layout_column="2"
             app:layout_row="6"
-            app:srcCompat="@drawable/wp" />
+            app:srcCompat="@drawable/light" />
 
         <ImageView
             android:id="@+id/t13"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/dark"
+            android:foreground="@drawable/wp"
             app:layout_column="3"
             app:layout_row="6"
-            app:srcCompat="@drawable/wp" />
+            app:srcCompat="@drawable/dark" />
 
         <ImageView
             android:id="@+id/t14"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/light"
+            android:foreground="@drawable/wp"
             app:layout_column="4"
             app:layout_row="6"
-            app:srcCompat="@drawable/wp" />
+            app:srcCompat="@drawable/light" />
 
         <ImageView
             android:id="@+id/t15"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/dark"
+            android:foreground="@drawable/wp"
             app:layout_column="5"
             app:layout_row="6"
-            app:srcCompat="@drawable/wp" />
+            app:srcCompat="@drawable/dark" />
 
         <ImageView
             android:id="@+id/t16"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/light"
+            android:foreground="@drawable/wp"
             app:layout_column="6"
             app:layout_row="6"
-            app:srcCompat="@drawable/wp" />
+            app:srcCompat="@drawable/light" />
 
         <ImageView
             android:id="@+id/t17"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/dark"
+            android:foreground="@drawable/wp"
             app:layout_column="7"
             app:layout_row="6"
-            app:srcCompat="@drawable/wp" />
+            app:srcCompat="@drawable/dark" />
 
         <ImageView
             android:id="@+id/t00"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/dark"
+            android:foreground="@drawable/wr"
             app:layout_column="0"
             app:layout_row="7"
-            app:srcCompat="@drawable/wr" />
+            app:srcCompat="@drawable/dark" />
 
         <ImageView
             android:id="@+id/t01"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/light"
+            android:foreground="@drawable/wn"
             app:layout_column="1"
             app:layout_row="7"
-            app:srcCompat="@drawable/wn" />
+            app:srcCompat="@drawable/light" />
 
         <ImageView
             android:id="@+id/t02"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/dark"
+            android:foreground="@drawable/wb"
             app:layout_column="2"
             app:layout_row="7"
-            app:srcCompat="@drawable/wb" />
+            app:srcCompat="@drawable/dark" />
 
         <ImageView
             android:id="@+id/t03"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/light"
+            android:foreground="@drawable/wq"
             app:layout_column="3"
             app:layout_row="7"
-            app:srcCompat="@drawable/wq" />
+            app:srcCompat="@drawable/light" />
 
         <ImageView
             android:id="@+id/t04"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/dark"
+            android:foreground="@drawable/wk"
             app:layout_column="4"
             app:layout_row="7"
-            app:srcCompat="@drawable/wk" />
+            app:srcCompat="@drawable/dark" />
 
         <ImageView
             android:id="@+id/t05"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/light"
+            android:foreground="@drawable/wb"
             app:layout_column="5"
             app:layout_row="7"
-            app:srcCompat="@drawable/wb" />
+            app:srcCompat="@drawable/light" />
 
         <ImageView
             android:id="@+id/t06"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/dark"
+            android:foreground="@drawable/wn"
             app:layout_column="6"
             app:layout_row="7"
-            app:srcCompat="@drawable/wn" />
+            app:srcCompat="@drawable/dark" />
 
         <ImageView
             android:id="@+id/t07"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/light"
+            android:foreground="@drawable/wr"
             app:layout_column="7"
             app:layout_row="7"
-            app:srcCompat="@drawable/wr" />
+            app:srcCompat="@drawable/light" />
 
 
     </android.support.v7.widget.GridLayout>
@@ -625,6 +657,22 @@
         android:text="@string/forward"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/gridLayout" />
+
+    <TextView
+        android:id="@+id/replay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="CHESS REPLAY"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/gridLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

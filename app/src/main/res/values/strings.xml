@@ -18,4 +18,5 @@
     <string name="wCheckmate">Checkmate. White Wins!</string>
     <string name="bCheck">CHECK. Black\'s Move</string>
     <string name="wCheck">Check. White\'s move</string>
+    <string name="hp">Back to Home Page</string>
 </resources>

@@ -36,7 +36,6 @@ public class Logs extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logs);
         //ListView lstView = findViewById(R.id.lstView);
-        Button btnDefault = findViewById(R.id.btnDefault);
 
 
         load();
@@ -46,15 +45,17 @@ public class Logs extends AppCompatActivity {
         ListView lstView = (ListView) findViewById(R.id.lstView);
         lstView.setAdapter(adapter);
 
+        Button homeP = findViewById(R.id.btnDefault);
+        homeP.setText(R.string.hp);
 
-        btnDefault.setOnClickListener(new View.OnClickListener() {
+        homeP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Logs.this, Watch.class);
-                intent.putStringArrayListExtra("logOfMoves", log);
-                startActivity(intent);
+                Intent goToMain = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(goToMain);
             }
         });
+
 
         lstView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
