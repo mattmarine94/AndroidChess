@@ -39,10 +39,6 @@ public class Logs extends AppCompatActivity {
         Button btnDefault = findViewById(R.id.btnDefault);
 
         load();
-        names.add("Daniel Cherdak");
-        names.add("Matthew");
-        log.add("0103");
-        log.add("6765");
 
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.listlogs,names);
@@ -82,20 +78,30 @@ public class Logs extends AppCompatActivity {
     String ret = "";
 
     try {
-        InputStream inputStream = context.openFileInput("config.txt");
+        InputStream inputStream = context.openFileInput(fileName);
 
         if ( inputStream != null ) {
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             String receiveString = "";
             StringBuilder stringBuilder = new StringBuilder();
-
+            int counter = 0;
             while ( (receiveString = bufferedReader.readLine()) != null ) {
                 stringBuilder.append(receiveString);
+
+                if (counter == 0){
+                    names.add(stringBuilder.toString());
+                    counter++;
+                    stringBuilder.setLength(0);
+                }
+
+
             }
+             log.add(stringBuilder.toString());
 
             inputStream.close();
-            names.add(stringBuilder.toString());
+
+            //names.add(stringBuilder.toString());
         }
     }
     catch (FileNotFoundException e) {
