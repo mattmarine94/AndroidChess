@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import java.io.*;
 import java.util.ArrayList;
+import android.content.Intent;
 
 
 
@@ -23,6 +24,7 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
     int clickCount = 0;
     int i, j, p, q;
     boolean gameStart = true;
+    boolean gameEnd = false;
     Board board = new Board();
     ImageButton[][] tiles = new ImageButton[8][8];
     boolean drawReq = false;
@@ -68,6 +70,16 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
         if(drawPlay > -1 && drawPlay != player){
             drawBtn.setClickable(true);
         }
+
+        Button end = findViewById(R.id.homeBtn);
+
+        end.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goToMain = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(goToMain);
+            }
+        });
 
         resBtn.setOnClickListener(new View.OnClickListener() {
             @Override

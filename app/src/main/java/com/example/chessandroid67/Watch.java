@@ -40,6 +40,26 @@ public class Watch extends AppCompatActivity  {
             }
         }
 
+        Button bList = findViewById(R.id.bList);
+
+        bList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goToLog = new Intent(getApplicationContext(), Logs.class);
+                startActivity(goToLog);
+            }
+        });
+
+        Button homeP = findViewById(R.id.homeP);
+
+        homeP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goToMain = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(goToMain);
+            }
+        });
+
         Button nextBtn = findViewById(R.id.nextBtn);
 
 
