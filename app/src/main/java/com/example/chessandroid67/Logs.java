@@ -38,11 +38,8 @@ public class Logs extends AppCompatActivity {
         //ListView lstView = findViewById(R.id.lstView);
         Button btnDefault = findViewById(R.id.btnDefault);
 
+
         load();
-        names.add("Daniel Cherdak");
-        names.add("Matthew");
-        log.add("0103");
-        log.add("6765");
 
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.listlogs,names);
@@ -59,19 +56,19 @@ public class Logs extends AppCompatActivity {
             }
         });
 
-       lstView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-           @Override
-           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               Intent intent = new Intent(Logs.this, Watch.class);
-               // find log of moves according to the position
+        lstView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(Logs.this, Watch.class);
+                // find log of moves according to the position
                 ArrayList<String> logging = new ArrayList<String>();
 
                 logging.add(log.get(position));
 
-               intent.putStringArrayListExtra("logOfMoves", logging);
-               startActivity(intent);
-           }
-       });
+                intent.putStringArrayListExtra("logOfMoves", logging);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -79,33 +76,49 @@ public class Logs extends AppCompatActivity {
 
         Toast.makeText(Logs.this, "Pulling file from " + getFilesDir() + "/" + fileName, Toast.LENGTH_LONG).show();
 
-    String ret = "";
+        String ret = "";
 
-    try {
-        InputStream inputStream = context.openFileInput("config.txt");
+        try {
+            InputStream inputStream = context.openFileInput(fileName);
 
-        if ( inputStream != null ) {
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            String receiveString = "";
-            StringBuilder stringBuilder = new StringBuilder();
+            if ( inputStream != null ) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+                StringBuilder stringBuilder = new StringBuilder();
+                int counter = 0;
+                while ( (receiveString = bufferedReader.readLine()) != null ) {
+                    stringBuilder.append(receiveString);
 
-            while ( (receiveString = bufferedReader.readLine()) != null ) {
-                stringBuilder.append(receiveString);
+                    if (counter == 0){
+                        names.add(stringBuilder.toString());
+                        counter++;
+                        stringBuilder.setLength(0);
+                    }
+                    if(stringBuilder.length() > 0 && stringBuilder.substring(stringBuilder.length()-3).toString().equals("end"))
+                    {
+                        System.out.println("inside end loop");
+                        log.add(stringBuilder.toString());
+                        counter = 0;
+                        stringBuilder.setLength(0);
+                    }
+
+
+                }
+                log.add(stringBuilder.toString());
+
+                inputStream.close();
+
+                //names.add(stringBuilder.toString());
             }
-
-            inputStream.close();
-            names.add(stringBuilder.toString());
         }
+        catch (FileNotFoundException e) {
+
+        } catch (IOException e) {
+
+        }
+
+
     }
-    catch (FileNotFoundException e) {
-
-    } catch (IOException e) {
-
-    }
-
 
 }
-
-    }
-

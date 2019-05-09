@@ -410,14 +410,17 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                 TextView playerMove = findViewById(R.id.playerMove);
 
                 try {
-                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(fileName, Context.MODE_PRIVATE));
+                    File file = new File(getFilesDir(), fileName);
+                    FileOutputStream fos = new FileOutputStream(file, true);
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fos);
                     outputStreamWriter.write(name + "\n");
                     for (String s : movelst) {
-                        outputStreamWriter.write(s+"\n");
-
+                        outputStreamWriter.write(s + "\n");
+                        System.out.println(s);
                     }
-                    outputStreamWriter.write(playerMove.getText().toString()+"\n");
-                    outputStreamWriter.write("end\n");
+
+                    outputStreamWriter.write(playerMove.getText().toString());
+                    outputStreamWriter.write( "end\n");
 
                     outputStreamWriter.close();
                 }
