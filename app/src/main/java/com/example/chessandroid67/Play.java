@@ -413,11 +413,11 @@ public class Play extends AppCompatActivity implements View.OnClickListener {
                     OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(fileName, Context.MODE_PRIVATE));
                     outputStreamWriter.write(name + "\n");
                     for (String s : movelst) {
-                        outputStreamWriter.write(s);
-                        System.out.println(s);
-                    }
+                        outputStreamWriter.write(s+"\n");
 
-                    outputStreamWriter.write(playerMove.getText().toString());
+                    }
+                    outputStreamWriter.write(playerMove.getText().toString()+"\n");
+                    outputStreamWriter.write("end\n");
 
                     outputStreamWriter.close();
                 }
