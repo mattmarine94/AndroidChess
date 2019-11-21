@@ -5,9 +5,9 @@ Note: This application was built to run on android phone devices.
 This is an Android Application based on the game of Chess!
 
 HomeScreen:
-  1. Play a game button: will bring you to a chess board in which you can play a full game of chess between two players!
+  1. Play game button: will bring you to a chess board in which you can play a full game of chess between two players!
   
-  2. Replay game button: Will bring you to a list of previously saved games. You can replay any past saved game step-by-step!
+  2. Replay button: Will bring you to a list of previously saved games. You can replay any past saved game step-by-step!
   
   
 Chess Game:
