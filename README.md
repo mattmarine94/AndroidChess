@@ -1,6 +1,6 @@
 # AndroidChess
 
-Note: This application was built to run on android phone devices.
+Note: This application was built to run on android mobile devices.
 
 This is an Android Application based on the game of Chess!
 
@@ -24,4 +24,5 @@ Replay Old games:
 
   1. Select from a list of previously saved games which loads the selected game
   2. The game loaded can be replayed move-by-move for each click of the next button on screen.
-
+  
+  
